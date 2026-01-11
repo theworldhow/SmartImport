@@ -1,0 +1,23 @@
+{
+  "name": "smartimport",
+  "version": "1.0.0",
+  "description": "Full-stack data transformation application with AI-assisted mapping",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd backend && npm run dev",
+    "client": "cd frontend && npm start",
+    "install-all": "npm install && cd frontend && npm install && cd ../backend && npm install"
+  },
+  "keywords": [
+    "data-transformation",
+    "ai-mapping",
+    "file-processing"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
+

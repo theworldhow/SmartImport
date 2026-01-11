@@ -1,0 +1,95 @@
+NCPDP TELECOMMUNICATION STANDARD - PHARMACY CLAIMS FIXED-WIDTH LAYOUT,,,,,,
+Version: D.0 (Position-Based Flat File Format),,,,,,
+Record Length: 700 bytes,,,,,,
+,,,,,,
+SEGMENT,Field Name,Start Position,End Position,Length,Data Type,Description
+INSURANCE/PAYER,BIN,1,6,6,N,Bank Identification Number (Processor ID)
+INSURANCE/PAYER,PCN,7,16,10,AN,Processor Control Number
+INSURANCE/PAYER,GroupID,17,31,15,AN,Group/Plan ID
+INSURANCE/PAYER,MemberID,32,51,20,AN,Member/Cardholder ID
+INSURANCE/PAYER,PersonCode,52,53,2,N,Person Code (01=Cardholder 02=Spouse 03=Child)
+INSURANCE/PAYER,DateOfBirth,54,61,8,N,Patient Date of Birth (CCYYMMDD)
+INSURANCE/PAYER,Gender,62,62,1,A,Gender (M=Male F=Female U=Unknown)
+PATIENT,PatientFirstName,63,97,35,AN,Patient First Name
+PATIENT,PatientLastName,98,132,35,AN,Patient Last Name
+PATIENT,PatientAddress,133,172,40,AN,Patient Street Address
+PATIENT,PatientCity,173,197,25,AN,Patient City
+PATIENT,PatientState,198,199,2,A,Patient State Code
+PATIENT,PatientZip,200,204,5,AN,Patient ZIP Code (5-digit)
+PHARMACY,ServiceProviderID,205,219,15,AN,Pharmacy ID (NCPDP Provider ID)
+PHARMACY,ServiceProviderIDQualifier,220,221,2,N,ID Qualifier (01=NPI 05=NCPDP)
+PHARMACY,PharmacyNPI,222,231,10,N,Pharmacy NPI
+PHARMACY,PharmacyName,232,266,35,AN,Pharmacy Name
+PHARMACY,PharmacyAddress,267,306,40,AN,Pharmacy Street Address
+PHARMACY,PharmacyCity,307,331,25,AN,Pharmacy City
+PHARMACY,PharmacyState,332,333,2,A,Pharmacy State Code
+PHARMACY,PharmacyZip,334,338,5,AN,Pharmacy ZIP Code
+PRESCRIBER,PrescriberID,339,353,15,AN,Prescriber ID (DEA Number)
+PRESCRIBER,PrescriberIDQualifier,354,355,2,N,ID Qualifier (12=DEA 01=NPI)
+PRESCRIBER,PrescriberNPI,356,365,10,N,Prescriber NPI
+PRESCRIBER,PrescriberFirstName,366,400,35,AN,Prescriber First Name
+PRESCRIBER,PrescriberLastName,401,435,35,AN,Prescriber Last Name
+PRESCRIBER,PrescriberPhone,436,445,10,N,Prescriber Phone Number
+CLAIM,DateOfService,446,453,8,N,Date of Service (CCYYMMDD)
+CLAIM,DatePrescriptionWritten,454,461,8,N,Date Prescription Written (CCYYMMDD)
+CLAIM,RxNumber,462,473,12,AN,Prescription/Service Reference Number
+CLAIM,FillNumber,474,474,1,N,Fill Number (0=Original 1+=Refill)
+CLAIM,NDC,475,485,11,N,National Drug Code (11-digit)
+CLAIM,DrugName,486,525,40,AN,Drug/Product Name
+CLAIM,DrugStrength,526,540,15,AN,Drug Strength
+CLAIM,DosageForm,541,555,15,AN,Dosage Form (Tablet Capsule etc.)
+DISPENSING,QuantityDispensed,556,565,10,N,Quantity Dispensed (Right-justified zero-filled)
+DISPENSING,DaysSupply,566,568,3,N,Days Supply
+DISPENSING,DAWCode,569,569,1,N,Dispense As Written Code (0-9)
+DISPENSING,CompoundCode,570,570,1,N,Compound Code (1=Not Compound 2=Compound)
+DISPENSING,SubmissionClarificationCode,571,572,2,N,Submission Clarification Code
+DISPENSING,PriorAuthTypeCode,573,574,2,N,Prior Auth Type (00=None 01=Required)
+DISPENSING,PriorAuthNumber,575,585,11,AN,Prior Authorization Number
+PRICING,IngredientCostSubmitted,586,596,11,N,Ingredient Cost Submitted (cents - no decimal)
+PRICING,DispensingFeeSubmitted,597,604,8,N,Dispensing Fee Submitted (cents)
+PRICING,PatientPaidAmount,605,612,8,N,Patient Paid/Copay Amount (cents)
+PRICING,UsualAndCustomaryCharge,613,623,11,N,U&C Charge (cents)
+PRICING,GrossAmountDue,624,634,11,N,Gross Amount Due (cents)
+PRICING,BasisOfCostDetermination,635,636,2,N,Cost Basis (01=AWP 02=Local 03=MAC)
+PRICING,OtherPayerAmountPaid,637,647,11,N,COB Amount (cents)
+CLINICAL,DiagnosisCode,648,662,15,AN,Diagnosis Code (ICD-10-CM)
+CLINICAL,DiagnosisCodeQualifier,663,664,2,N,Code Qualifier (01=ICD-10-CM)
+CLINICAL,PrescriptionOriginCode,665,665,1,N,Origin (1=Written 2=Phone 3=Electronic 4=Fax)
+CLINICAL,OtherCoverageCode,666,667,2,N,Other Coverage Code (0=None 1=Primary)
+CLINICAL,PharmacyServiceType,668,669,2,N,Service Type (01=Community 04=Mail)
+CLINICAL,LevelOfService,670,670,1,N,Level of Service Code
+CLINICAL,PlaceOfService,671,672,2,N,Place of Service (01=Pharmacy)
+CLINICAL,PrimaryCareProviderID,673,687,15,AN,Primary Care Provider ID
+FILLER,Filler,688,700,13,AN,Reserved for future use
+,,,,,,
+CODE VALUES,,,,,,
+,,,,,,
+Code Type,Code,Description,,,
+DAW Code,0,No Product Selection Indicated,,,
+DAW Code,1,Substitution Not Allowed by Prescriber,,,
+DAW Code,2,Substitution Allowed - Patient Requested Brand,,,
+DAW Code,3,Substitution Allowed - Pharmacist Selected,,,
+DAW Code,4,Substitution Allowed - Generic Not Available,,,
+DAW Code,5,Substitution Allowed - Brand Dispensed as Generic,,,
+Person Code,01,Cardholder (Self),,,
+Person Code,02,Spouse,,,
+Person Code,03,Dependent Child,,,
+Person Code,04,Other Dependent,,,
+Prescription Origin,1,Written,,,
+Prescription Origin,2,Telephone,,,
+Prescription Origin,3,Electronic (eRx),,,
+Prescription Origin,4,Facsimile,,,
+Prior Auth Type,00,Not Specified / No PA Required,,,
+Prior Auth Type,01,Prior Authorization Required,,,
+Prior Auth Type,02,Medical Certification,,,
+Cost Basis,01,AWP (Average Wholesale Price),,,
+Cost Basis,02,Local Wholesaler,,,
+Cost Basis,03,MAC (Maximum Allowable Cost),,,
+Cost Basis,04,EAC (Estimated Acquisition Cost),,,
+,,,,,,
+DATA TYPE LEGEND,,,,,,
+Type,Description,,,,
+N,Numeric - Right-justified zero-filled,,,,
+A,Alphabetic - Left-justified space-filled,,,,
+AN,Alphanumeric - Left-justified space-filled,,,,
+

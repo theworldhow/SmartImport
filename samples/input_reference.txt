@@ -1,0 +1,18 @@
+INPUT DATA REFERENCE DOCUMENTATION
+====================================
+
+Field Descriptions:
+- first_name: Employee's first name (string, required)
+- last_name: Employee's last name (string, required)
+- email: Employee email address (must be valid email format)
+- phone: Phone number in format XXX-XXXX
+- date_of_birth: Date in YYYY-MM-DD format
+- salary: Annual salary in USD (numeric)
+- department: Department name (Engineering, Marketing, Sales, HR)
+
+Data Validation Rules:
+- Email addresses must be unique
+- Phone numbers should follow XXX-XXXX format
+- Salary must be positive number
+- Date of birth must be valid date
+

@@ -1,0 +1,28 @@
+OUTPUT DATA REFERENCE DOCUMENTATION
+====================================
+
+Field Descriptions:
+- FullName: Combined first and last name (string, required)
+- EmailAddress: Employee email (must be lowercase, valid format)
+- PhoneNumber: Phone number (string format)
+- BirthDate: Date in YYYY-MM-DD format
+- AnnualSalary: Annual salary (numeric, no decimals)
+- Dept: Department abbreviation (ENG, MKT, SAL, HR)
+- EmployeeID: Unique identifier starting with EMP followed by 3 digits
+
+Transformation Rules:
+- FullName: Concatenate first_name + " " + last_name
+- EmailAddress: Convert to lowercase
+- Dept: Map department names to abbreviations:
+  * Engineering -> ENG
+  * Marketing -> MKT
+  * Sales -> SAL
+  * HR -> HR
+- EmployeeID: Generate sequential ID (EMP001, EMP002, etc.)
+
+Validation Requirements:
+- All fields are required
+- Email must be valid format
+- Salary must be positive integer
+- EmployeeID must be unique
+

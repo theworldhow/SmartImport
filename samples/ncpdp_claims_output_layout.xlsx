@@ -1,0 +1,63 @@
+NCPDP CLAIMS OUTPUT - FIXED-WIDTH LAYOUT (Simplified/Normalized),,,,,,
+Record Length: 500 bytes,,,,,,
+,,,,,,
+SEGMENT,Field Name,Start Position,End Position,Length,Data Type,Description
+OUTPUT,ClaimID,1,20,20,AN,Unique Claim Identifier (CLM + Date + Seq)
+OUTPUT,ProcessingDate,21,30,10,AN,Processing Date (YYYY-MM-DD)
+OUTPUT,PayerID,31,46,16,AN,Payer ID (BIN + PCN concatenated)
+OUTPUT,MemberNumber,47,66,20,AN,Member/Cardholder ID
+OUTPUT,PatientName,67,101,35,AN,Patient Name (LAST FIRST - uppercase)
+OUTPUT,PatientDOB,102,111,10,AN,Patient DOB (YYYY-MM-DD)
+OUTPUT,PharmacyNPI,112,121,10,N,Pharmacy NPI
+OUTPUT,PharmacyName,122,156,35,AN,Pharmacy Name (uppercase)
+OUTPUT,PrescriberNPI,157,166,10,N,Prescriber NPI
+OUTPUT,PrescriberName,167,201,35,AN,Prescriber Name (LAST FIRST MD)
+OUTPUT,RxNumber,202,213,12,AN,Prescription Number
+OUTPUT,NDCCode,214,224,11,N,National Drug Code
+OUTPUT,DrugDescription,225,269,45,AN,Drug Name Strength Form
+OUTPUT,Quantity,270,279,10,N,Quantity Dispensed
+OUTPUT,DaysSupply,280,282,3,N,Days Supply
+OUTPUT,IngredientCost,283,293,11,N,Ingredient Cost (cents)
+OUTPUT,DispensingFee,294,302,9,N,Dispensing Fee (cents)
+OUTPUT,Copay,303,311,9,N,Patient Copay (cents)
+OUTPUT,PlanPaidAmount,312,322,11,N,Plan Paid Amount (cents)
+OUTPUT,TotalAmountPaid,323,333,11,N,Total Amount Paid (cents)
+OUTPUT,ClaimStatus,334,337,4,A,Status (PAID/DENY/PEND)
+OUTPUT,PARequired,338,338,1,A,PA Required Flag (Y/N)
+OUTPUT,PANumber,339,349,11,AN,Prior Authorization Number
+OUTPUT,Filler,350,500,151,AN,Reserved for future use
+,,,,,,
+TRANSFORMATION RULES,,,,,,
+,,,,,,
+Output Field,Source Field(s),Transformation Rule,,,
+ClaimID,"DateOfService, Sequence","Concatenate ""CLM"" + DateOfService + SequenceNumber",,,
+ProcessingDate,DateOfService,Format as YYYY-MM-DD,,,
+PayerID,"BIN, PCN",Concatenate BIN + PCN,,,
+MemberNumber,MemberID,Direct copy,,,
+PatientName,"PatientLastName, PatientFirstName","Concatenate LASTNAME + "", "" + FIRSTNAME (uppercase)",,,
+PatientDOB,DateOfBirth,Format CCYYMMDD to YYYY-MM-DD,,,
+PharmacyNPI,PharmacyNPI,Direct copy,,,
+PharmacyName,PharmacyName,Convert to uppercase,,,
+PrescriberNPI,PrescriberNPI,Direct copy,,,
+PrescriberName,"PrescriberLastName, PrescriberFirstName","Concatenate LASTNAME + "", "" + FIRSTNAME + "" MD""",,,
+RxNumber,RxNumber,Direct copy,,,
+NDCCode,NDC,Direct copy,,,
+DrugDescription,"DrugName, DrugStrength, DosageForm",Concatenate with space separator,,,
+Quantity,QuantityDispensed,Direct copy,,,
+DaysSupply,DaysSupply,Direct copy,,,
+IngredientCost,IngredientCostSubmitted,Already in cents format,,,
+DispensingFee,DispensingFeeSubmitted,Already in cents format,,,
+Copay,PatientPaidAmount,Already in cents format,,,
+PlanPaidAmount,"GrossAmountDue, PatientPaidAmount",GrossAmountDue - PatientPaidAmount,,,
+TotalAmountPaid,GrossAmountDue,Direct copy,,,
+ClaimStatus,N/A,Set to PAID if processed successfully,,,
+PARequired,PriorAuthTypeCode,"If ""01"" then ""Y"" else ""N""",,,
+PANumber,PriorAuthNumber,Copy if PARequired = Y,,,
+,,,,,,
+CLAIM STATUS VALUES,,,,,,
+Status,Description,,,,
+PAID,Claim processed and paid successfully,,,,
+DENY,Claim denied,,,,
+PEND,Claim pending review,,,,
+REVS,Claim reversed,,,,
+

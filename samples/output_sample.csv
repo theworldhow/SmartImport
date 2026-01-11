@@ -1,0 +1,4 @@
+FullName,EmailAddress,PhoneNumber,BirthDate,AnnualSalary,Dept,EmployeeID
+John Doe,john.doe@example.com,555-0101,1985-03-15,75000,Engineering,EMP001
+Jane Smith,jane.smith@example.com,555-0102,1990-07-22,82000,Marketing,EMP002
+

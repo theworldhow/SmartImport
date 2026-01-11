@@ -1,0 +1,12 @@
+first_name,last_name,email,phone,date_of_birth,salary,department
+John,Doe,john.doeexample.com,555-0101,1985-03-15,75000,Engineering
+Jane,Smith,jane.smith@example.com,555-0102,1990-07-22,82000,Marketing
+Bob,Johnson,bob.johnson@example.com,555-0103,1988-11-05,68000,Sales
+Alice,Williams,alice.williams@example.com,555-0104,1992-01-32,71000,Engineering
+Charlie,Brown,charlie.brown@example.com,555-0105,1987-09-14,79000,HR
+Diana,Prince,diana.prince@example.com,555-0106,199105-18,85000,Marketing
+Frank,Miller,frank.miller@example.com,555-0107,1989-12-25,72000,Sales
+Grace,Lee,grace.lee@example.com,5550108,1993-08-10,76000,Engineering
+Henry,Taylor,henry.taylor@example.com,555-0109,1986-04-20,74000,HR
+Ivy,Anderson,ivy.anderson@example.com,555-0110,1994-02-12,80000,Marketing
+

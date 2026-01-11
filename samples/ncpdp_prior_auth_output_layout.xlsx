@@ -1,0 +1,75 @@
+NCPDP PRIOR AUTHORIZATION OUTPUT - FIXED-WIDTH LAYOUT (Simplified/Normalized),,,,,,
+Record Length: 800 bytes,,,,,,
+,,,,,,
+SEGMENT,Field Name,Start Position,End Position,Length,Data Type,Description
+OUTPUT,AuthorizationID,1,15,15,AN,Authorization/Denial ID
+OUTPUT,RequestDate,16,25,10,AN,Request Date (YYYY-MM-DD)
+OUTPUT,DecisionDate,26,35,10,AN,Decision Date (YYYY-MM-DD)
+OUTPUT,ExpirationDate,36,45,10,AN,Expiration Date (YYYY-MM-DD) - blank if denied
+OUTPUT,Status,46,55,10,A,Status (APPROVED/DENIED/PENDING)
+OUTPUT,MemberID,56,75,20,AN,Member/Cardholder ID
+OUTPUT,MemberName,76,110,35,AN,Member Name (LAST FIRST - uppercase)
+OUTPUT,DOB,111,120,10,AN,Date of Birth (YYYY-MM-DD)
+OUTPUT,DrugNDC,121,131,11,N,National Drug Code
+OUTPUT,DrugName,132,171,40,AN,Drug Name (uppercase)
+OUTPUT,Strength,172,186,15,AN,Drug Strength
+OUTPUT,PrescriberNPI,187,196,10,N,Prescriber NPI
+OUTPUT,PrescriberName,197,231,35,AN,Prescriber Name (LAST FIRST MD)
+OUTPUT,Specialty,232,266,35,AN,Prescriber Specialty (uppercase)
+OUTPUT,DiagnosisCode,267,281,15,AN,Primary Diagnosis Code (ICD-10)
+OUTPUT,DiagnosisDesc,282,351,70,AN,Diagnosis Description (truncated)
+OUTPUT,QuantityApproved,352,361,10,N,Quantity Approved (0 if denied)
+OUTPUT,DaysSupplyApproved,362,364,3,N,Days Supply Approved (0 if denied)
+OUTPUT,RefillsApproved,365,366,2,N,Refills Approved (0 if denied)
+OUTPUT,DenialCode,367,370,4,AN,Denial Reason Code
+OUTPUT,DenialReason,371,430,60,AN,Denial Reason Description (truncated)
+OUTPUT,AppealEligible,431,431,1,A,Appeal Eligible Flag (Y/N)
+OUTPUT,ReviewerID,432,437,6,AN,Reviewer ID
+OUTPUT,Filler,438,800,363,AN,Reserved for future use
+,,,,,,
+TRANSFORMATION RULES,,,,,,
+,,,,,,
+Output Field,Source Field(s),Transformation Rule,,,
+AuthorizationID,PAApprovalCode or PARequestID,Use PAApprovalCode if approved else PARequestID,,,
+RequestDate,PARequestDate,Format CCYYMMDD to YYYY-MM-DD,,,
+DecisionDate,PAStatusDate,Format CCYYMMDD to YYYY-MM-DD,,,
+ExpirationDate,PAExpirationDate,"Format CCYYMMDD to YYYY-MM-DD (blank if denied)",,,
+Status,PAStatus,Uppercase space-padded to 10 chars,,,
+MemberID,MemberID,Direct copy,,,
+MemberName,"PatientLastName, PatientFirstName","Concatenate LASTNAME + "", "" + FIRSTNAME (uppercase)",,,
+DOB,PatientDOB,Format CCYYMMDD to YYYY-MM-DD,,,
+DrugNDC,NDC,Direct copy,,,
+DrugName,DrugName,Convert to uppercase,,,
+Strength,DrugStrength,Direct copy,,,
+PrescriberNPI,PrescriberNPI,Direct copy,,,
+PrescriberName,"PrescriberLastName, PrescriberFirstName","Concatenate LASTNAME + "", "" + FIRSTNAME + "" MD""",,,
+Specialty,PrescriberSpecialty,Convert to uppercase,,,
+DiagnosisCode,DiagnosisCode1,Direct copy,,,
+DiagnosisDesc,DiagnosisDescription,Truncate to 70 characters,,,
+QuantityApproved,QuantityRequested,"Copy if APPROVED, else 0",,,
+DaysSupplyApproved,DaysSupplyRequested,"Copy if APPROVED, else 0",,,
+RefillsApproved,RefillsRequested,"Copy if APPROVED, else 0",,,
+DenialCode,DenialReason,"Extract first 4 characters (e.g., ST01)",,,
+DenialReason,DenialReason,Truncate to 60 characters,,,
+AppealEligible,Status,"If DENIED then ""Y"" else ""N""",,,
+ReviewerID,N/A,"Generate ""REV"" + Sequence",,,
+,,,,,,
+STATUS VALUES,,,,,,
+Status,Description,,,,
+APPROVED,Prior authorization granted,,,,
+DENIED,Prior authorization denied,,,,
+PENDING,Request under review,,,,
+CANCELLED,Request cancelled by requestor,,,,
+EXPIRED,Authorization period has ended,,,,
+,,,,,,
+DENIAL CODES,,,,,,
+Code,Description,,,,
+ST01,Step therapy required,,,,
+QL01,Quantity limit exceeded,,,,
+NF01,Drug not on formulary,,,,
+DX01,Diagnosis not covered,,,,
+DC01,Missing clinical documentation,,,,
+AL01,Alternative therapy available,,,,
+AG01,Age restriction,,,,
+DU01,Duration limit exceeded,,,,
+

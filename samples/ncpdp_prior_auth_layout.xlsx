@@ -1,0 +1,106 @@
+NCPDP SCRIPT STANDARD - PRIOR AUTHORIZATION FIXED-WIDTH LAYOUT,,,,,,
+Version: 2017071 (Position-Based Flat File Format),,,,,,
+Record Length: 3500 bytes,,,,,,
+,,,,,,
+SEGMENT,Field Name,Start Position,End Position,Length,Data Type,Description
+PA HEADER,PARequestID,1,15,15,AN,Unique PA Request Identifier
+PA HEADER,PARequestType,16,25,10,A,Request Type (NEW/RENEWAL/APPEAL/CANCEL)
+PA HEADER,PARequestDate,26,33,8,N,Request Date (CCYYMMDD)
+PA HEADER,PARequestTime,34,39,6,N,Request Time (HHMMSS)
+PA HEADER,PAStatusDate,40,47,8,N,Status Date (CCYYMMDD)
+PA HEADER,PAStatus,48,57,10,A,Status (PENDING/APPROVED/DENIED/CANCELLED)
+PA HEADER,PAExpirationDate,58,65,8,N,Authorization Expiration Date (CCYYMMDD)
+PA HEADER,PAApprovalCode,66,80,15,AN,Approval/Authorization Code
+PAYER,BIN,81,86,6,N,Bank Identification Number
+PAYER,PCN,87,96,10,AN,Processor Control Number
+PAYER,GroupID,97,111,15,AN,Group/Plan ID
+PAYER,MemberID,112,131,20,AN,Member/Cardholder ID
+PATIENT,PatientFirstName,132,166,35,AN,Patient First Name
+PATIENT,PatientLastName,167,201,35,AN,Patient Last Name
+PATIENT,PatientDOB,202,209,8,N,Patient Date of Birth (CCYYMMDD)
+PATIENT,PatientGender,210,210,1,A,Gender (M/F/U)
+PATIENT,PatientPhone,211,220,10,N,Patient Phone Number
+PRESCRIBER,PrescriberNPI,221,230,10,N,Prescriber NPI
+PRESCRIBER,PrescriberDEA,231,245,15,AN,Prescriber DEA Number
+PRESCRIBER,PrescriberFirstName,246,280,35,AN,Prescriber First Name
+PRESCRIBER,PrescriberLastName,281,315,35,AN,Prescriber Last Name
+PRESCRIBER,PrescriberSpecialty,316,350,35,AN,Prescriber Specialty
+PRESCRIBER,PrescriberPhone,351,360,10,N,Prescriber Phone
+PRESCRIBER,PrescriberFax,361,370,10,N,Prescriber Fax
+PHARMACY,PharmacyNPI,371,380,10,N,Pharmacy NPI
+PHARMACY,PharmacyName,381,415,35,AN,Pharmacy Name
+PHARMACY,PharmacyPhone,416,425,10,N,Pharmacy Phone
+DRUG,NDC,426,436,11,N,National Drug Code (11-digit)
+DRUG,DrugName,437,476,40,AN,Drug/Product Name
+DRUG,DrugStrength,477,491,15,AN,Drug Strength
+DRUG,DosageForm,492,506,15,AN,Dosage Form
+DRUG,GPI,507,520,14,N,Generic Product Identifier
+DRUG,TherapeuticClass,521,570,50,AN,Therapeutic Class Description
+DRUG,QuantityRequested,571,580,10,N,Quantity Requested
+DRUG,DaysSupplyRequested,581,583,3,N,Days Supply Requested
+DRUG,RefillsRequested,584,585,2,N,Number of Refills Requested
+DRUG,DirectionsForUse,586,725,140,AN,SIG - Directions for Use
+DIAGNOSIS,DiagnosisCode1,726,740,15,AN,Primary Diagnosis Code (ICD-10)
+DIAGNOSIS,DiagnosisCode2,741,755,15,AN,Secondary Diagnosis Code (ICD-10)
+DIAGNOSIS,DiagnosisDescription,756,855,100,AN,Diagnosis Description
+PREVIOUS THERAPY,PreviousTherapy1,856,905,50,AN,Previous Drug/Therapy #1
+PREVIOUS THERAPY,PreviousTherapyResult1,906,1005,100,AN,Result/Reason for Discontinuation #1
+PREVIOUS THERAPY,PreviousTherapy2,1006,1055,50,AN,Previous Drug/Therapy #2
+PREVIOUS THERAPY,PreviousTherapyResult2,1056,1155,100,AN,Result/Reason for Discontinuation #2
+CLINICAL,ClinicalInfo1,1156,1355,200,AN,Clinical Justification #1
+CLINICAL,ClinicalInfo2,1356,1555,200,AN,Clinical Justification #2
+CLINICAL,ClinicalInfo3,1556,1755,200,AN,Clinical Justification #3
+LAB DATA,LabTestName,1756,1805,50,AN,Laboratory Test Name
+LAB DATA,LabTestDate,1806,1813,8,N,Lab Test Date (CCYYMMDD)
+LAB DATA,LabTestResult,1814,1863,50,AN,Lab Test Result/Value
+ALLERGY,AllergyInfo,1864,1963,100,AN,Known Allergies
+ALLERGY,ContraindicationInfo,1964,2063,100,AN,Contraindications
+AUTHORIZATION,RequestedStartDate,2064,2071,8,N,Requested Start Date (CCYYMMDD)
+AUTHORIZATION,RequestedEndDate,2072,2079,8,N,Requested End Date (CCYYMMDD)
+AUTHORIZATION,UrgencyIndicator,2080,2080,1,A,Urgency (R=Routine U=Urgent E=Emergency)
+AUTHORIZATION,AppealIndicator,2081,2081,1,A,Appeal Flag (Y/N)
+AUTHORIZATION,AppealReason,2082,2281,200,AN,Reason for Appeal
+RESPONSE,DenialReason,2282,2481,200,AN,Denial Reason
+RESPONSE,ReviewerNotes,2482,2981,500,AN,Clinical Reviewer Notes
+FILLER,Filler,2982,3500,519,AN,Reserved for future use
+,,,,,,
+CODE VALUES,,,,,,
+,,,,,,
+Code Type,Code,Description,,,
+PA Status,PENDING,Request under review,,,
+PA Status,APPROVED,Authorization granted,,,
+PA Status,DENIED,Authorization denied,,,
+PA Status,CANCELLED,Request cancelled,,,
+PA Status,EXPIRED,Authorization period ended,,,
+PA Request Type,NEW,Initial prior authorization request,,,
+PA Request Type,RENEWAL,Renewal of existing authorization,,,
+PA Request Type,APPEAL,Appeal of denied request,,,
+PA Request Type,CANCEL,Cancellation request,,,
+Urgency,R,Routine (Standard review - up to 72 hours),,,
+Urgency,U,Urgent (Expedited review - within 24 hours),,,
+Urgency,E,Emergency (Immediate review required),,,
+Denial Code,ST01,Step therapy required,,,
+Denial Code,QL01,Quantity limit exceeded,,,
+Denial Code,NF01,Drug not on formulary,,,
+Denial Code,DX01,Diagnosis not covered,,,
+Denial Code,DC01,Missing clinical documentation,,,
+Denial Code,AL01,Alternative therapy available,,,
+Denial Code,AG01,Age restriction,,,
+Denial Code,DU01,Duration limit exceeded,,,
+,,,,,,
+THERAPEUTIC CLASSES (GPI),,,,,,
+GPI Prefix,Therapeutic Class,Example Drugs,,,
+27200040,Antidiabetic - SGLT2 Inhibitors,Jardiance Invokana Farxiga,,,
+27200060,Antidiabetic - GLP-1 Agonists,Ozempic Trulicity Victoza,,,
+66100020,Immunosuppressants - TNF Blockers,Humira Enbrel Remicade,,,
+83370020,Anticoagulants - Factor Xa Inhibitors,Eliquis Xarelto,,,
+44200030,Corticosteroids - Inhaled,Flovent Advair Symbicort,,,
+61200020,CNS Stimulants - Amphetamines,Adderall Vyvanse,,,
+59200040,Antipsychotics - Atypical,Abilify Seroquel Risperdal,,,
+,,,,,,
+DATA TYPE LEGEND,,,,,,
+Type,Description,,,,
+N,Numeric - Right-justified zero-filled,,,,
+A,Alphabetic - Left-justified space-filled,,,,
+AN,Alphanumeric - Left-justified space-filled,,,,
+
